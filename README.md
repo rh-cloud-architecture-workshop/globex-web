@@ -24,3 +24,7 @@ GLOBEX_SUPPORT_URL
 ## docker
 docker built -t quay.io/cloud-architecture-workshop/globex-web-chat:<checkin-tag> .
 docker push quay.io/cloud-architecture-workshop/globex-web-chat:<checkin-tag>
+
+
+podman build --platform linux/amd64  -t quay.io/cloud-architecture-workshop/globex-web-chat:no-offline . 
+podman push quay.io/cloud-architecture-workshop/globex-web-chat:no-offline

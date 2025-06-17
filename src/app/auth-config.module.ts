@@ -27,7 +27,7 @@ export const httpLoaderFactory = (httpClient: HttpClient) => {
         logLevel: customConfig[config.SSO_LOG_LEVEL_KEY],
         postLoginRoute: '/home',
         historyCleanupOff: true,
-        scope: 'openid profile email offline_access',
+        scope: 'openid profile email',
         responseType: 'id_token token',        
         silentRenew: true,
         useRefreshToken: true        
