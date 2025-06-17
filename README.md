@@ -23,5 +23,5 @@ export SSO_LOG_LEVEL=2
 
 ## docker
 
-docker build -t quay.io/cloud-architecture-workshop/globex-web:<tag> .
-docker push quay.io/cloud-architecture-workshop/globex-web:<tag> 
+podman build --platform linux/amd64  -t quay.io/cloud-architecture-workshop/globex-web:no-offline . 
+podman push quay.io/cloud-architecture-workshop/globex-web:no-offline

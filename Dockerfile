@@ -1,5 +1,5 @@
 # First stage builds the application
-FROM registry.access.redhat.com/ubi8/nodejs-16:1 as builder
+FROM registry.redhat.io/ubi9/nodejs-20@sha256:9d0dd7af383e77f842f5331741a640fbc865e6c2487d065cbac91270bfdb99fa as builder
 
 # Add dependencies
 COPY --chown=1001:1001 package*.json $HOME
@@ -17,7 +17,7 @@ COPY --chown=1001:1001 . $HOME
 RUN ng build --configuration=production --output-hashing=none && ng run globex-web:server:production --output-hashing=none
 
 # Second stage copies the application to the minimal image
-FROM registry.access.redhat.com/ubi8/nodejs-16-minimal:1
+FROM registry.redhat.io/ubi9/nodejs-20-minimal@sha256:3250ed42bc14071e68d19ec1480ab5b6477dc36741737609c8cce2bbed6c1fa5
 
 # ENV variables
 # API_BASE_URL: URL of service to connect to
