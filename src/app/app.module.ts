@@ -36,6 +36,8 @@ import { ChatComponent } from './chat/chat.component';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { ChatService } from './chat.service';
 import { DummyAuthPopUpService } from './dummy-auth-popup.service';
+import { CustomerCareComponent } from './customer-care/customer-care.component';
+
 
 
 export function initConfig(appConfig: AppConfigService) {
@@ -58,7 +60,8 @@ const config: SocketIoConfig = { url: 'http://localhost:4200', options: {} };
     HomeComponent,
     YourFavouritesComponent,
     CheckoutComponent,
-    ChatComponent
+    ChatComponent,
+    CustomerCareComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

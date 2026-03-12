@@ -15,8 +15,8 @@ export API_CUSTOMER_SERVICE="http://localhost:9000/services/customer/id/:custId"
 export API_ORDER_SERVICE="http://localhost:8080/web-gateway/services/order"
 
 export SSO_CUSTOM_CONFIG="globex-web-gateway"
-export SSO_AUTHORITY="http://localhost:8180/realms/user1-globex_users"
-export SSO_REDIRECT_LOGOUT_URI="http://localhost:4200/home"
+export SSO_AUTHORITY="http://localhost:8083/realms/globex"
+export SSO_REDIRECT_LOGOUT_URI="http://localhost:4201/home"
 export SSO_LOG_LEVEL=2
 
 GLOBEX_SUPPORT_URL

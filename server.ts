@@ -38,6 +38,8 @@ export function app(): express.Express {
   const ANGULR_API_CUSTOMER = '/api/customer';
   const ANGULAR_API_ORDER = '/api/order';
   const ANGULAR_API_AUTHCONFIG = '/api/getAuthConfig';
+  const ANGULAR_API_CUSTOMER_CARE = '/api/customer-care';
+  const ANGULAR_API_CUSTOMER_CARE_END = '/api/customer-care/end';
 
   const RECOMMENDED_PRODUCTS_LIMIT = get('RECOMMENDED_PRODUCTS_LIMIT').default(5).asInt();
 
@@ -57,6 +59,7 @@ export function app(): express.Express {
   const API_CART_SERVICE = get('API_CART_SERVICE').default('').asString();
   const API_CUSTOMER_SERVICE = get('API_CUSTOMER_SERVICE').default('').asString();
   const API_ORDER_SERVICE = get('API_ORDER_SERVICE').asString();
+  const API_CUSTOMER_CARE_SERVICE = get('API_CUSTOMER_CARE_SERVICE').default('').asString();
 
   //setup keycloak auth settings
   const SSO_CUSTOM_CONFIG = get('SSO_CUSTOM_CONFIG').default('').asString();
@@ -308,7 +311,57 @@ export function app(): express.Express {
       })
   });
 
-  
+  // POST CUSTOMER CARE API CALL
+  server.post(ANGULAR_API_CUSTOMER_CARE, (req, res) => {
+    const userMessage = req.body.message;
+    
+    // Send GET request to external service
+    axios.get(API_CUSTOMER_CARE_SERVICE, {
+      params: {
+        message: userMessage,
+        sessionId: 100
+      }
+    })
+    .then(response => {
+      // Return the response from external service
+      res.status(200).send({
+        response: response.data.response
+      });
+    })
+    .catch(error => {
+      console.error('Error calling external customer care service:', error);
+      // Fallback response if external service fails
+      res.status(200).send({
+        response: "Sorry, we're experiencing technical difficulties. Please try again later."
+      });
+    });
+  });
+
+  // POST CUSTOMER CARE END CHAT API CALL
+  server.post(ANGULAR_API_CUSTOMER_CARE_END, (req, res) => {
+    const sessionId = req.body.sessionId;
+    const externalServiceUrl = `${API_CUSTOMER_CARE_SERVICE}/end`;
+
+    // Send POST request to external service to end chat
+    axios.post(externalServiceUrl, {
+      sessionId: sessionId
+    })
+    .then(response => {
+      // Return the response from external service
+      res.status(200).send({
+        response: response.data.response || 'Chat ended successfully'
+      });
+    })
+    .catch(error => {
+      console.error('Error calling external customer care end service:', error);
+      // Fallback response if external service fails
+      res.status(200).send({
+        response: 'Chat session ended'
+      });
+    });
+  });
+
+
 //API Setup END
 
 //Health check

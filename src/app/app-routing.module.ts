@@ -7,6 +7,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { HomeComponent } from './home/home.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ChatComponent } from './chat/chat.component';
+import { CustomerCareComponent } from './customer-care/customer-care.component';
 import { TabsComponent } from './tabs/tabs.component';
 import { YourFavouritesComponent } from './your-favourites/your-favourites.component';
 
@@ -15,11 +16,12 @@ const routes = [
     {path: 'products', component: TabsComponent},
     {path: 'cart', component: CartComponent},
     {path: 'product-detail/:itemId', component: ProductDetailComponent },
-    {path: 'myFavourites', component: YourFavouritesComponent }, 
-    {path: 'chat', component: ChatComponent }, 
+    {path: 'myFavourites', component: YourFavouritesComponent },
+    {path: 'chat', component: ChatComponent },
+    {path: 'customer-care', component: CustomerCareComponent},
     {path: 'checkout', component: CheckoutComponent, canActivate: [AutoLoginPartialRoutesGuard]},
     {path: '**', redirectTo: '/home'}
-  
+
   ];
   
   

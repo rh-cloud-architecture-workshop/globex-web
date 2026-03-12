@@ -1,0 +1,61 @@
+<div class="card customer-care-alert alert alert-danger" *ngIf="!loginService.isUserAuthenticated()" style="margin-top: 30px;">
+  <i class="fa fa-lock" style="font-size: 50px; margin-bottom: 15px;"></i>
+  <p>Please login to access Customer Care.</p>
+</div>
+
+<main class="card customer-care-container" *ngIf="loginService.isUserAuthenticated()">
+  <div class="container card-body">
+    <div class="care-header">
+      <i class="fa fa-headphones care-icon"></i>
+      <span class="care-title">Customer Care</span>
+    </div>
+
+    <div class="chat-content" #scrollMe>
+      <div class="messages-container">
+        <div *ngFor="let message of messages"
+             [ngClass]="{'message-user': message.sender === 'user', 'message-care': message.sender === 'care'}"
+             class="message">
+          <div class="message-bubble">
+            <span class="message-text">{{ message.text }}</span>
+            <span class="message-time">{{ message.timestamp | date: 'short' }}</span>
+          </div>
+        </div>
+
+        <div *ngIf="isLoading" class="message message-care">
+          <div class="message-bubble">
+            <span class="typing-indicator">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form (ngSubmit)="sendMessage()" class="message-form">
+      <div class="input-group">
+        <input
+          type="text"
+          [(ngModel)]="newMessage"
+          name="message"
+          placeholder="Type your message..."
+          class="form-control message-input"
+          [disabled]="isLoading">
+        <button
+          type="submit"
+          class="btn btn-primary send-button"
+          [disabled]="!newMessage || newMessage.trim() === '' || isLoading">
+          <i class="fa fa-paper-plane"></i> Send
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger end-chat-button"
+          (click)="endChat()"
+          [disabled]="isLoading">
+          <i class="fa fa-times"></i> End Chat
+        </button>
+      </div>
+    </form>
+  </div>
+</main>
