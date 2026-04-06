@@ -41,6 +41,12 @@ export class CustomerCareComponent implements OnInit, AfterViewChecked {
     }
 
     // Add welcome message
+    this.resetChat();
+  }
+
+  resetChat(): void {
+    // Add welcome message
+    this.messages = [];
     const welcomeText = this.userId
       ? `Welcome ${this.userId}! How can we help you today?`
       : 'Welcome to Customer Care! How can we help you today?';
@@ -51,7 +57,6 @@ export class CustomerCareComponent implements OnInit, AfterViewChecked {
       timestamp: new Date()
     });
   }
-
   ngAfterViewChecked(): void {
     this.scrollToBottom();
   }
@@ -110,18 +115,19 @@ export class CustomerCareComponent implements OnInit, AfterViewChecked {
     this.isLoading = true;
 
     // Send end chat request to server
-    this.http.post<{ response: string }>('/api/customer-care/end', {
+    this.http.post<{ response: string }>(serverEnvConfig.ANGULAR_API_CUSTOMER_CARE_END, {
       sessionId: this.sessionId
     })
       .subscribe({
         next: () => {
           // Refresh the page
-          window.location.reload();
+          this.resetChat();
+          this.isLoading = false;
         },
         error: (error) => {
           console.error('Error ending chat:', error);
           // Refresh the page even on error
-          window.location.reload();
+          this.resetChat();
         }
       });
   }

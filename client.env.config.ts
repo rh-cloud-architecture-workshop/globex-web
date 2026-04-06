@@ -18,7 +18,8 @@ const envClientConfig = {
   SSO_AUTHORITY_KEY: "SSO_AUTHORITY_KEY",
   SSO_REDIRECT_LOGOUT_URI_KEY: "SSO_REDIRECT_LOGOUT_URI_KEY",  
   SSO_LOG_LEVEL_KEY: "SSO_LOG_LEVEL_KEY",
-  ANGULAR_API_CUSTOMER_CARE: '/api/customer-care'
+  ANGULAR_API_CUSTOMER_CARE: '/api/customer-care',
+  ANGULAR_API_CUSTOMER_CARE_END: '/api/customer-care/end'
         
 }
 

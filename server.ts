@@ -341,13 +341,19 @@ export function app(): express.Express {
 
   // POST CUSTOMER CARE END CHAT API CALL
   server.post(ANGULAR_API_CUSTOMER_CARE_END, (req, res) => {
+    console.log('ANGULAR_API_CUSTOMER_CARE_END', "Received request to end customer care chat for session: ", req.body.sessionId);
     const sessionId = req.body.sessionId;
-    const externalServiceUrl = `${API_CUSTOMER_CARE_SERVICE}/end`;
+    const externalServiceUrl = API_CUSTOMER_CARE_SERVICE+'/api/v1/request';
 
+    const bearerToken = sessions.get(req.cookies['globex_session_token']).getAccessToken();
+    console.log("bearerToken", bearerToken  )
+    // Send GET request to external service
+    const configHeader = {
+      headers: { Authorization: `Bearer ${bearerToken}` }
+    };
+    
     // Send POST request to external service to end chat
-    axios.post(externalServiceUrl, {
-      sessionId: sessionId
-    })
+    axios.delete(API_CUSTOMER_CARE_SERVICE, configHeader)
     .then(response => {
       // Return the response from external service
       res.status(200).send({
