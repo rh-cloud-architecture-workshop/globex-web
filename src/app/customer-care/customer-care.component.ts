@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LoginService } from '../login.service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import * as uuid from 'uuid';
+import { marked } from 'marked';
 import serverEnvConfig from "client.env.config";
 
 interface Message {
@@ -24,7 +26,11 @@ export class CustomerCareComponent implements OnInit, AfterViewChecked {
   userId: string = '';
   sessionId: string = '';
 
-  constructor(private http: HttpClient, public loginService: LoginService) {
+  constructor(
+    private http: HttpClient,
+    public loginService: LoginService,
+    private sanitizer: DomSanitizer
+  ) {
     this.sessionId = uuid.v4();
   }
 
@@ -118,5 +124,12 @@ export class CustomerCareComponent implements OnInit, AfterViewChecked {
           window.location.reload();
         }
       });
+  }
+
+  formatMessage(text: string): SafeHtml {
+    // Convert markdown to HTML using marked
+    const html = marked(text);
+    // Sanitize the HTML to prevent XSS attacks
+    return this.sanitizer.sanitize(1, html) || '';
   }
 }

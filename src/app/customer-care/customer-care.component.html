@@ -16,7 +16,7 @@
              [ngClass]="{'message-user': message.sender === 'user', 'message-care': message.sender === 'care'}"
              class="message">
           <div class="message-bubble">
-            <span class="message-text">{{ message.text }}</span>
+            <span class="message-text" [innerHTML]="formatMessage(message.text)"></span>
             <span class="message-time">{{ message.timestamp | date: 'short' }}</span>
           </div>
         </div>

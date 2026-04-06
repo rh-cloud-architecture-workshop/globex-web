@@ -318,12 +318,11 @@ export function app(): express.Express {
     const bearerToken = sessions.get(req.cookies['globex_session_token']).getAccessToken();
     console.log("bearerToken", bearerToken  )
     // Send GET request to external service
-    axios.get(API_CUSTOMER_CARE_SERVICE, {
-      params: {
-        message: req.body.message,
-        sessionId: req.body.sessionId
-      }, headers: { Authorization: `Bearer ${bearerToken}` }
-    })
+    const configHeader = {
+      headers: { Authorization: `Bearer ${bearerToken}` }
+    };
+
+    axios.post(API_CUSTOMER_CARE_SERVICE,  {"request": req.body.message}, configHeader)
     .then(response => {
       // Return the response from external service
       console.log("ANGULAR_API_CUSTOMER_CARE", "Response from external customer care service: ", response.data);

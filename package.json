@@ -40,6 +40,7 @@
     "env-var": "^7.1.1",
     "express": "^4.15.2",
     "font-awesome": "^4.7.0",
+    "marked": "^17.0.6",
     "ngx-cookie-service": "^15.0.0",
     "ngx-socket-io": "^4.4.0",
     "path-browserify": "^1.0.1",
