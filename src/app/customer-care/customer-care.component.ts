@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked, AfterViewInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LoginService } from '../login.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -17,8 +17,9 @@ interface Message {
   templateUrl: './customer-care.component.html',
   styleUrls: ['./customer-care.component.css']
 })
-export class CustomerCareComponent implements OnInit, AfterViewChecked {
+export class CustomerCareComponent implements OnInit, AfterViewChecked, AfterViewInit {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+  @ViewChild('messageInput') private messageInput: ElementRef;
 
   messages: Message[] = [];
   newMessage: string = '';
@@ -47,16 +48,21 @@ export class CustomerCareComponent implements OnInit, AfterViewChecked {
   resetChat(): void {
     // Add welcome message
     this.messages = [];
-    const welcomeText = this.userId
-      ? `Welcome ${this.userId}! How can we help you today?`
-      : 'Welcome to Customer Care! How can we help you today?';
+    // const welcomeText = this.userId
+    //   ? `Welcome ${this.userId}! How can we help you today?`
+    //   : 'Welcome to Customer Care! How can we help you today?';
 
-    this.messages.push({
-      text: welcomeText,
-      sender: 'care',
-      timestamp: new Date()
-    });
+    // this.messages.push({
+    //   text: welcomeText,
+    //   sender: 'care',
+    //   timestamp: new Date()
+    // });
   }
+
+  ngAfterViewInit(): void {
+    this.focusInput();
+  }
+
   ngAfterViewChecked(): void {
     this.scrollToBottom();
   }
@@ -65,6 +71,14 @@ export class CustomerCareComponent implements OnInit, AfterViewChecked {
     try {
       this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
     } catch (err) {}
+  }
+
+  focusInput(): void {
+    setTimeout(() => {
+      if (this.messageInput) {
+        this.messageInput.nativeElement.focus();
+      }
+    }, 0);
   }
 
   sendMessage(): void {
@@ -98,6 +112,7 @@ export class CustomerCareComponent implements OnInit, AfterViewChecked {
             timestamp: new Date()
           });
           this.isLoading = false;
+          this.focusInput();
         },
         error: (error) => {
           console.error('Error sending message:', error);
@@ -107,6 +122,7 @@ export class CustomerCareComponent implements OnInit, AfterViewChecked {
             timestamp: new Date()
           });
           this.isLoading = false;
+          this.focusInput();
         }
       });
   }
@@ -123,11 +139,14 @@ export class CustomerCareComponent implements OnInit, AfterViewChecked {
           // Refresh the page
           this.resetChat();
           this.isLoading = false;
+          this.focusInput();
         },
         error: (error) => {
           console.error('Error ending chat:', error);
           // Refresh the page even on error
           this.resetChat();
+          this.isLoading = false;
+          this.focusInput();
         }
       });
   }

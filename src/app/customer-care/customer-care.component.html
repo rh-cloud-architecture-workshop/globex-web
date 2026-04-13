@@ -6,8 +6,13 @@
 <main class="card customer-care-container" *ngIf="loginService.isUserAuthenticated()">
   <div class="container card-body">
     <div class="care-header">
-      <i class="fa fa-headphones care-icon"></i>
-      <span class="care-title">Customer Care</span>
+      <div>
+        <i class="fa fa-headphones care-icon"></i>
+        <span class="care-title">Customer Care</span>
+      </div>
+      <div class="container" style="padding-bottom: 15px;">
+        <span style="float: right;">Logged in as {{ this.userId ? this.userId : 'Guest' }}</span>
+      </div>
     </div>
 
     <div class="chat-content" #scrollMe>
@@ -36,6 +41,7 @@
     <form (ngSubmit)="sendMessage()" class="message-form">
       <div class="input-group">
         <input
+          #messageInput
           type="text"
           [(ngModel)]="newMessage"
           name="message"
